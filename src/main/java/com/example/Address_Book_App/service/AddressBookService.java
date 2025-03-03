@@ -1,7 +1,6 @@
 package com.example.Address_Book_App.service;
 
-
-
+import com.example.Address_Book_App.exception.AddressBookNotFoundException;
 import com.example.Address_Book_App.dto.AddressBookDTO;
 import com.example.Address_Book_App.model.AddressBook;
 import jakarta.persistence.EntityManager;
@@ -33,9 +32,12 @@ public class AddressBookService {
         return entityManager.createQuery("SELECT a FROM AddressBook a", AddressBook.class).getResultList();
     }
 
-    @Transactional
-    public AddressBook getEntryById(Long id) {  // Fix: Marked as @Transactional
-        return entityManager.find(AddressBook.class, id);
+    public AddressBook getEntryById(Long id) {
+        AddressBook entry = entityManager.find(AddressBook.class, id);
+        if (entry == null) {
+            throw new AddressBookNotFoundException("AddressBook entry with ID " + id + " not found.");
+        }
+        return entry;
     }
 
     @Transactional

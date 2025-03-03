@@ -17,9 +17,10 @@ public class AddressBookController {
     private AddressBookService service;
 
     @PostMapping("/add")
-    public ResponseEntity<AddressBookDTO> addEntry(@RequestParam String name) {
-        return ResponseEntity.ok(service.addEntry(name));
+    public ResponseEntity<AddressBookDTO> addEntry(@RequestBody AddressBookDTO addressBookDTO) {
+        return ResponseEntity.ok(service.addEntry(addressBookDTO.getName()));
     }
+
 
     @GetMapping("/all")
     public ResponseEntity<List<AddressBookDTO>> getAllEntries() {
